@@ -6,13 +6,14 @@ class Load extends Phaser.Scene {
     preload() {
         // load the visual goodz
         this.load.path = './assets/'
-        this.load.spritesheet('swim', 'swim-sheet.png', {
+        this.load.spritesheet('swim', 'swimsheet.png', {
             frameWidth: 130,
             frameHeight: 130,
         })
         this.load.image('ocean', 'ocean.png')
         this.load.image('dolphin', 'dolphin.png')
         this.load.image('shell', 'shell2.png')
+        this.load.image('pufferfish', 'pufferfish.png')
     }
 
     create() {

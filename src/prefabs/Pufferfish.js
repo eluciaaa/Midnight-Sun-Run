@@ -1,16 +1,16 @@
-class Shell extends Phaser.GameObjects.Sprite {
+class Pufferfish extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, pointValue) {
         super(scene, x, y, texture, frame)
         scene.add.existing(this)
-        this.points = 10
+        this.points = -30
         this.moveSpeed = 3
     }
 
     update() {
-        // move shell down
+        // move pufferfish down
         this.y += this.moveSpeed
 
-        // wrap from edge
+        // wrap from left to right edge
         if(this.y >= 1000) {
             this.y = 200
         }
