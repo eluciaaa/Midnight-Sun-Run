@@ -12,7 +12,8 @@ class Menu extends Phaser.Scene {
         })
         this.load.image('ocean', 'ocean.png')
         this.load.image('dolphin', 'dolphin.png')
-        this.load.image('shell', 'shell2.png')
+        this.load.image('conchshell', 'conchshell.png')
+        this.load.image('seashell', 'seashell.png')
         this.load.image('pufferfish', 'pufferfish.png')
         this.load.image('menubackground', 'menubackground.png')
     }
