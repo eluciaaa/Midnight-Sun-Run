@@ -3,16 +3,18 @@ class Pufferfish extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame)
         scene.add.existing(this)
         this.points = -30
-        this.moveSpeed = 3
+        this.moveSpeed = 2.9
     }
 
     update() {
+        if (!this.active) return
+
         // move pufferfish down
         this.y += this.moveSpeed
 
         // wrap from left to right edge
-        if(this.y >= 1000) {
-            this.y = 200
+        if(this.y >= 700) {
+            this.reset()
         }
     }
 
@@ -20,6 +22,8 @@ class Pufferfish extends Phaser.GameObjects.Sprite {
     reset() {
         this.active = false
         this.visible = false
+
+        this.y = 200
 
         let delay = Phaser.Math.Between(0, 3000)
 

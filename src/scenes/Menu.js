@@ -16,18 +16,20 @@ class Menu extends Phaser.Scene {
         this.load.image('seashell', 'seashell.png')
         this.load.image('pufferfish', 'pufferfish.png')
         this.load.image('menubackground', 'menubackground.png')
+        this.load.image('controls', 'controls.png')
+        this.load.image('splash', 'splash.png')
     }
 
     create() {
         // dolphin animations
-        this.anims.create({
-            key: 'swim',
-            frameRate: 4,
-            repeat: -1,
-            frames: this.anims.generateFrameNumbers('swim', { start: 0, end: 2 }),
-        })
-        
-        // this.scene.start('playScene')
+        if (!this.anims.exists('swim')) {
+            this.anims.create({
+                key: 'swim',
+                frameRate: 4,
+                repeat: -1,
+                frames: this.anims.generateFrameNumbers('swim', { start: 0, end: 2 }),
+            })
+        }
 
         let titleMenuConfig = {
             fontFamily: 'Brush Script MT',
@@ -68,7 +70,7 @@ class Menu extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
 
         this.input.once('pointerdown', () => {
-            this.scene.start('playScene')
+            this.scene.start('guideScene')
         })
     }
 
