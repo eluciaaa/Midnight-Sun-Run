@@ -30,7 +30,11 @@ const config = {
             debug: true
         }
     },
-    scene: [ Menu, Guide, Play ]
+    scene: [ Menu, Guide, Play ],
+    fps: {
+        target: 60,
+        forceSetTimeOut: true
+    }
 }
 
 let game = new Phaser.Game(config)
