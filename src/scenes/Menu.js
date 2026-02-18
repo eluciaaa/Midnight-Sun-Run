@@ -18,6 +18,11 @@ class Menu extends Phaser.Scene {
         this.load.image('menubackground', 'menubackground.png')
         this.load.image('controls', 'controls.png')
         this.load.image('splash', 'splash.png')
+        this.load.audio('swim', 'water.wav')
+        this.load.audio('collect', 'shellcollect.wav')
+        this.load.audio('poked', 'poked.wav')
+        this.load.audio('click', 'click.wav')
+        this.load.audio('bgmusic', '248144__dpren__cgi-tropical-paradise-loop.wav')
     }
 
     create() {
@@ -70,30 +75,11 @@ class Menu extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
 
         this.input.once('pointerdown', () => {
+            this.sound.play('click')
             this.scene.start('guideScene')
         })
     }
 
         update() {
-        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            // easy mode
-            game.settings = {
-                normalSpaceshipSpeed: 3,
-                fastSpaceshipSpeed: 4,
-                gameTimer: 60000
-            }
-            this.sound.play('sfx-select')
-            this.scene.start('playScene')
-        }
-        if(Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            // hard mode
-            game.settings = {
-                normalSpaceshipSpeed: 4,
-                fastSpaceshipSpeed: 5,
-                gameTimer: 45000
-            }
-            this.sound.play('sfx-select')
-            this.scene.start('playScene')
-        }
     }
 }

@@ -4,6 +4,12 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.bgm = this.sound.add('bgmusic', {
+            volume: 0.3,
+            loop: true
+        })
+        this.bgm.play()
+
         // add background image
         this.ocean = this.add.tileSprite(0, 0, 850, 640, 'ocean').setOrigin(0).setDepth(0)
 
@@ -25,6 +31,7 @@ class Play extends Phaser.Scene {
         this.conchShellsCollected = 0
         this.seaShellsCollected = 0
         this.pufferfishSwamInto = 0
+        this.soundPlayed = false
         this.isInvincible = false
         this.lane1 = 90
         this.lane2 = 320
@@ -43,14 +50,14 @@ class Play extends Phaser.Scene {
 
         // all stat tracking labels for the side panel
         this.scoreLabel = this.add.text(690, 100, `Score: `, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
-        this.scoreNumber = this.add.text(730, 170, this.score, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
+        this.scoreNumber = this.add.text(720, 170, this.score, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
         this.scoreLabelConfig.fontSize = '38px'
         this.highScoreLabel = this.add.text(695, 250, `High Score: `, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
-        this.highScoreNumber = this.add.text(740, 300, game.highscore, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
-        this.scoreLabelConchShells = this.add.text(685, 415, 'Conch Shells \nCollected: ', this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
-        this.scoreNumberConchShells = this.add.text(815, 426, this.conchShellsCollected, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
-        this.scoreLabelSeaShells = this.add.text(685, 535, 'Sea Shells \nCollected: ', this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
-        this.scoreNumberSeaShells = this.add.text(815, 548, this.seaShellsCollected, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
+        this.highScoreNumber = this.add.text(730, 300, game.highscore, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
+        this.scoreLabelConchShells = this.add.text(685, 535, 'Conch Shells \nCollected: ', this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
+        this.scoreNumberConchShells = this.add.text(805, 548, this.conchShellsCollected, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
+        this.scoreLabelSeaShells = this.add.text(685, 415, 'Sea Shells \nCollected: ', this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
+        this.scoreNumberSeaShells = this.add.text(805, 426, this.seaShellsCollected, this.scoreLabelConfig).setOrigin(0.13, 0.75).setDepth(3)
 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
@@ -58,7 +65,7 @@ class Play extends Phaser.Scene {
         keyMENU = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M)
 
         this.time.addEvent({
-            delay: 5000,
+            delay: 3000,
             callback: this.speedUp,
             callbackScope: this,
             loop: true
@@ -69,21 +76,25 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+         if (!this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             // move dolphin left 1 lane
             if (this.dolphin.x === this.lane2) {
                 this.dolphin.x = this.lane1
+                this.sound.play('swim')
             } else if (this.dolphin.x === this.lane3) {
                 this.dolphin.x = this.lane2
+                this.sound.play('swim')
             }
         }
 
-         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+         if (!this.gameOver && Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
             // move dolphin right 1 lane
             if (this.dolphin.x === this.lane1) {
                 this.dolphin.x = this.lane2
+                this.sound.play('swim')
             } else if (this.dolphin.x === this.lane2) {
                 this.dolphin.x = this.lane3
+                this.sound.play('swim')
             }
         }
 
@@ -97,11 +108,16 @@ class Play extends Phaser.Scene {
         }
 
         if(this.gameOver) {
+            if(!this.soundPlayed) {
+                this.sound.play('poked')
+                this.soundPlayed = true
+            }
             this.dolphin.anims.pause()
         }
 
         if (this.checkCollision(this.dolphin, this.conchshell)) {
-            this.score += 10
+            this.sound.play('collect')
+            this.score += 15
             this.conchshell.y = -100
             this.scoreNumber.text = this.score
             this.conchShellsCollected += 1
@@ -111,6 +127,7 @@ class Play extends Phaser.Scene {
         }
 
         if (this.checkCollision(this.dolphin, this.seashell)) {
+            this.sound.play('collect')
             this.score += 5
             this.seashell.y = -100
             this.scoreNumber.text = this.score
@@ -122,6 +139,9 @@ class Play extends Phaser.Scene {
 
         if (this.checkCollision(this.dolphin, this.pufferfish)) {
             this.gameOver = true
+            if (this.bgm && this.bgm.isPlaying) {
+                this.bgm.pause();
+            }
             this.splash.alpha = 1
             this.scoreNumber.text = this.score
             if (this.score > game.highScore) {
@@ -136,10 +156,12 @@ class Play extends Phaser.Scene {
         }
 
         if (this.gameOver && (Phaser.Input.Keyboard.JustDown(keyRESTART))) {
+            this.sound.play('click')
             this.scene.start('playScene')
         }
 
         if (this.gameOver && (Phaser.Input.Keyboard.JustDown(keyMENU))) {
+            this.sound.play('click')
             this.scene.start('menuScene')
         }
     }

@@ -28,6 +28,7 @@ class Guide extends Phaser.Scene {
         this.add.text(410, 350, 'click to start', controlsTextConfig).setOrigin(0.5)
 
         this.input.once('pointerdown', () => {
+            this.sound.play('click')
             this.scene.start('playScene')
         })
 

@@ -2,7 +2,6 @@ class ConchShell extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, pointValue) {
         super(scene, x, y, texture, frame)
         scene.add.existing(this)
-        this.points = 10
         this.moveSpeed = 2.7
     }
 
@@ -25,7 +24,7 @@ class ConchShell extends Phaser.GameObjects.Sprite {
 
         this.y = 200
 
-        let delay = Phaser.Math.Between(0, 3000)
+        let delay = Phaser.Math.Between(0, 5000)
 
         this.scene.time.delayedCall(delay, () => {
             this.y = 200
