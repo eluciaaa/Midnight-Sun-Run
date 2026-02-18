@@ -36,8 +36,15 @@ class Menu extends Phaser.Scene {
             })
         }
 
+        document.fonts.load('100px BrushScript').then(() => {
+            this.buildMenu()
+        })
+    }
+
+
+    buildMenu() {
         let titleMenuConfig = {
-            fontFamily: 'Brush Script MT',
+            fontFamily: 'BrushScript',
             fontSize: '100px',
             color: '#FFFea7',
             align: 'right',
@@ -49,7 +56,7 @@ class Menu extends Phaser.Scene {
         }
 
         let menuConfig = {
-            fontFamily: 'Brush Script MT',
+            fontFamily: 'BrushScript',
             fontSize: '100px',
             color: '#ff0098',
             align: 'right',
@@ -80,6 +87,6 @@ class Menu extends Phaser.Scene {
         })
     }
 
-        update() {
+    update() {
     }
 }

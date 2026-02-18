@@ -5,7 +5,7 @@ class Guide extends Phaser.Scene {
 
     create() {
        let controlsTextConfig = {
-            fontFamily: 'Brush Script MT',
+            fontFamily: 'BrushScript',
             fontSize: '50px',
             color: '#FFFea7',
             align: 'right',

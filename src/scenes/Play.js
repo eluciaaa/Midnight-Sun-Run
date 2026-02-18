@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
         this.lane3 = 550
 
         this.scoreLabelConfig = {
-            fontFamily: 'Brush Script MT',
+            fontFamily: 'BrushScript',
             fontSize: '70px',
             color: '#FFFea7',
             padding: {
