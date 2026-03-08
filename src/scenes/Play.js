@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
         this.lane3 = 550
 
         this.scoreLabelConfig = {
-            fontFamily: 'Brush Script MT',
+            fontFamily: 'BrushScript',
             fontSize: '70px',
             color: '#FFFea7',
             padding: {
@@ -114,7 +114,8 @@ class Play extends Phaser.Scene {
             }
             this.dolphin.anims.pause()
         }
-
+        
+        // collision checks
         if (this.checkCollision(this.dolphin, this.conchshell)) {
             this.sound.play('collect')
             this.score += 15
